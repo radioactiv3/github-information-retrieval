@@ -1,0 +1,443 @@
+<html>
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/main.css" rel="stylesheet">
+
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/Chart.js"></script>
+
+		<body>
+		
+        <div class="jumbotron" style ="background:#81BEF7;">
+		<h1 align="center">GitHub Issue Statastic </h1><br>
+		
+		<h4 align = "center" color = "white"> Chart.Js is the open source library used to draw charts</h4>
+		<h4 align = "center" style ="text-color :"#81BEF7"> Please See: The GitHub API allows a particular no. of server calls in a duration.<br> You may not get correct result if the duration is past. Wait for some time and try again</h4>
+		</div>
+		
+		<div align="center">
+			<form class="navbar-form">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Enter Your Url Here" id="request_input" background = "#81BEF7" required>
+					<div class="input-group-btn">
+						<button class="btn " type ="submit">Find Issues</button>
+					</div>
+				</div>	
+				<br>
+				<div class="input-group">
+					<h6>Please Input The Public Url of Repositary</h6>
+				</div>
+			</form>
+			<button type="button" id ="btn1" class="btn btn-info" data-toggle="collapse" data-target="#graph">Show/Hide</button>
+		<button type="button"  id = "btn2" class="btn btn-info"  onclick= "drawGraph()" >Draw Graph</button>
+			 <div class="container" >
+			
+			<table class="table table-striped">
+<thead><tr>
+	<th><h4>Issue Type</h4></th>
+    <th><h4>Value</h4></th>
+	
+	
+</tr></thead>
+<tbody>
+<tr>
+<td> Total</td>
+<td name=total> - </td>
+</tr>
+<td> Total In Past 24 Hours</td>
+<td name =total24hrs> - </td>
+</tr>
+<td> Total In Past Week</td>
+<td name =InWeek> - </td>
+</tr>
+<td> Older Than a Week</td>
+<td name =olderthanweek> - </td>
+</tr>
+
+
+
+
+</tbody>
+</table>
+        
+			<div class ="collapsible">
+		<div class = "container"id ="graph" >
+			
+		<div style="width: 50%" style ="visibility:"hidden"">
+		<canvas id="canvas" height="300" width="600" ></canvas>
+		</div>
+		</div>
+		
+		
+		<div class = "collapse" id ="graph">
+			<p>adadadadadadada</p>
+		<div style="width: 50%">
+		<canvas id="canvas" height="200" width="200"></canvas>
+		</div>
+		
+		</div>
+		</div>
+
+
+	<script>
+	</script>
+	
+		</div>
+		
+		
+		<br>
+		
+		<!-- <footer class="footer" style ="position:absolute ; bottom:0; align :center">
+      <div class="container">
+	  <div align ="center">
+    <p align = center> Created By Akshay Gupta Using Chart Js for Graphical Representation</p>
+		</div>
+		</div>
+		</footer> -->
+		</body>
+		<script>
+		// The javaScript and ajax calls starts here
+		// var a ,b , c and d are used for chart data
+		//
+		var a ; 
+		var b ;
+		var c;
+		var d;
+		
+		if(a>0)
+		{
+		$('btn1').prop('disabled', false);
+		$('btn2').prop('disabled', false)
+		}
+	 function drawGraph(){
+				var ctx = document.getElementById("canvas").getContext("2d");
+				window.myPolarArea = new Chart(ctx).PolarArea(polarData, {
+					responsive:true
+				});
+				window.location.hash = '#graph';
+			};
+		
+		
+		
+
+	/*var barChartData=[
+	labels : ["total Issue", "Issue In 24 Hours","Issue In Past Week", "Issue Older Than a Week"],{
+	            fillColor : "rgba(220,220,220,0.5)",
+				strokeColor : "rgba(220,220,220,0.8)",
+				highlightFill: "rgba(220,220,220,0.75)",
+				highlightStroke: "rgba(220,220,220,1)",
+				data:0},
+				{
+				fillColor : "rgba(220,220,220,0.5)",
+				strokeColor : "rgba(220,220,220,0.8)",
+				highlightFill: "rgba(220,220,220,0.75)",
+				highlightStroke: "rgba(220,220,220,1)",
+				data:0}
+				,{
+				fillColor : "rgba(220,220,220,0.5)",
+				strokeColor : "rgba(220,220,220,0.8)",
+				highlightFill: "rgba(220,220,220,0.75)",
+				highlightStroke: "rgba(220,220,220,1)",
+				data:0},
+				{fillColor : "rgba(220,220,220,0.5)",
+				strokeColor : "rgba(220,220,220,0.8)",
+				highlightFill: "rgba(220,220,220,0.75)",
+				highlightStroke: "rgba(220,220,220,1)",
+				data:0}];*/
+	console.log(a)
+	/*window.onload = function(){
+		var ctx = document.getElementById("canvas").getContext("2d");
+		window.myBar = new Chart(ctx).Bar(barChartData, {
+			responsive : true
+		});
+	}*/
+	var polarData = [
+				{
+					value: 300,
+					color:"#F7464A",
+					highlight: "#FF5A5E",
+					label: "Total Issue"
+				},
+				{
+					value: 50,
+					color: "#46BFBD",
+					highlight: "#5AD3D1",
+					label: "Issues In 24 Hours"
+				},
+				{
+					value: 100,
+					color: "#FDB45C",
+					highlight: "#FFC870",
+					label: "Issues In A week"
+				},
+				{
+					value: 40,
+					color: "#949FB1",
+					highlight: "#A8B3C5",
+					label: "Older Issues"
+				},
+				
+
+			];
+
+			window.onload = function(){
+				
+			};
+		$(document).ready(function(){
+					 //This function finds out out the remaining number of api calls on load
+					 set_value();
+			});
+$("form").submit(function(e){
+					getResults();
+					return false;
+				 });
+ function iterator(i){
+				$.ajax({
+					  url: request_url+"/pulls?state=open&page="+i+"&per_page=100",
+					  dataType: 'jsonp',
+					  type: 'get',
+					  success: function(response) {
+						var len=response.data.length;
+						
+						if(len<99){
+							limit_check=0;
+							set_value();
+							
+						}
+						else{
+							iterator(limit_check++);
+							set_value();
+						}
+						pull_value_adder(response);
+						
+					  }
+				});
+				}
+function set_value()
+{
+var daily = daily_result-day_pulls ;
+var weekly =weekly_result-week_pull-daily;
+var totalIssue =total_result -total_request_pulls;
+var weekOld  = totalIssue-daily-weekly;
+//barChartData.datasets.data[0] =totalIssue;
+var findvalue_a = function(){ return daily_result-day_pulls};
+var findvalue_b = function(){ return daily_result-day_pulls};
+var findvalue_c = function(){ return daily_result-day_pulls};
+var findvalue_d = function(){ return daily_result-day_pulls};
+
+		if(limit_check!=1){
+											
+		$('[name="total"]').text(totalIssue);
+		$('[name="total24hrs"]').text(daily);
+		$('[name="InWeek"]').text(weekly);
+		$('[name="olderthanweek"]').text(totalIssue-daily-weekly);
+	polarData[0].value = totalIssue;
+	polarData[1].value = daily;
+	polarData[2].value = weekly;
+	polarData[3].value = weekOld;
+		//document.getElementsByName("olderthanweek").text = weekOld;
+ // console.log(daily_result-day_pulls);
+  //console.log(weekly_result-week_pull);
+  // console.log(total_result -total_request_pulls);
+    //console.log(total_result -total_request_pulls);
+}
+}
+var total_result =0;
+
+//var day_of_pull =0;
+var day_pulls =0;
+var weekly_result =0;
+var daily_result = 0;
+var week_pull =0;
+//var within_week =0;
+//var last_24_hours=0; 
+var request_url;
+var total_issue=0 ;
+//var issue24hrs=0; 
+//var older_issue=0 ;
+var limit_check =1;
+var total_request_pulls =0;
+function weekResults(date_value,value)
+{                                   // console.log("i was called 2");
+									$.ajax({
+											  url: request_url+"/issues?state=open&page="+value+"&per_page=100&since="+date_value,
+											  dataType: 'jsonp',
+											  type: 'get',
+											  success: function(response) {
+												var len=response.data.length;
+												use_week_data(response);
+												set_value();
+												console.log("week iter:"+value+" val:"+len);
+												if(len<99){
+													
+													limit_check =0;
+													
+												}
+												else{
+												
+													weekResults(date_value,value+1);
+													
+													
+												}
+											  }
+										});
+}
+function use_week_data(response)
+{ 
+//console.log("i am called for week");
+ var len = response.data.length;
+ var i =0 ;
+ //console.log(len);
+ //while(i!=len)
+ for(i=0;i<len;i++)
+ {
+    // if(new Date(response.data[i].created_at)>new Date(dt_oneweek_old.toISOString()))
+											//A+=1;
+							//console.log(response.data[i].created_at);	
+							//console.log("inside while");
+       if(new Date(response.data[i].created_at)>new Date(dt_oneweek_old.toISOString()))
+	   {
+							      weekly_result+=1;
+							
+							if(new Date(response.data[i].created_at)>new Date(dt_yesterday.toISOString())){
+								daily_result+=1;
+								
+								
+							 }
+							
+							if(typeof response.data[i].pull_request!="undefined")//this checks if the object is a pull_request
+							{
+								if(new Date(response.data[i].created_at)>new Date(dt_oneweek_old.toISOString())){
+									week_pull+=1;
+									
+									if(new Date(response.data[i].created_at)>new Date(dt_oneweek_old.toISOString())){
+										day_pulls+=1;
+									}
+								}
+							}
+	  //i++;
+  	}
+	}																
+	}
+ 
+
+function find_week_results()
+{        console.log("i am called 1");
+        var request_url_week;
+		request_url_week=request_url+"/issues?state=open&page=1&per_page=100&since="+dt_oneweek_old.toISOString();
+	
+		$.ajax({
+		  url: request_url_week,
+		  dataType: 'jsonp',
+		  type: 'get',
+		  beforeSend :function() {
+								  
+							   },
+		  success:function(response) { 
+		           use_week_data(response);
+				   set_value();
+			console.log("got sucee"+response.data.length);
+			if(response.data.length<100){
+				
+				limit_check=0;
+				
+			}
+			else{
+				limit_check = 1;
+			   weekResults(dt_oneweek_old.toISOString(),limit_check);
+			}
+		  }
+		});
+
+}
+function initialise()
+{
+	            $.ajax({
+							  url: request_url,
+							  dataType: 'jsonp',
+							  type: 'get',
+							  beforeSend: function() {
+								  
+							   },
+							  success: function(response) {
+								
+								total_result=response.data['open_issues_count'];
+								console.log(total_result);
+								dt_yesterday = new Date();
+								dt_yesterday.setDate(dt_yesterday.getDate()-1);
+								dt_oneweek_old = new Date();
+								dt_oneweek_old.setDate(dt_oneweek_old.getDate()-7);
+								find_week_results()
+							  }, error: function(jqXHR, textStatus, errorThrown) {
+																  console.log(textStatus, errorThrown);
+																}
+							});
+}
+ function pull_value_adder(response)
+ { 
+ var len = response.data.length;
+ total_request_pulls+= len;
+ set_value();
+ }
+function getResults()
+{
+                             //console.log(11);
+							//var request_input =0;
+							 request_url;
+							var request_input = jQuery("#request_input").val();
+							//request_url = request_input;
+							//console.log(request_input);
+							request_url="https://api.github.com/repos/"+$("input#request_input").val().split("/")[3]+"/"+$("input#request_input").val().split("/")[4];
+							console.log(request_url);
+							$.ajax({
+							  url: request_url+"/pulls?state=open&page=1&per_page=100",
+							  dataType: 'jsonp',
+							  type: 'get',
+							  beforeSend: function() {
+							  console.log("working");
+							   
+							   },
+							  success:function(response) {
+							  
+								var len = response.data.length;
+								console.log(response.data.length);
+								
+								if(len<100)
+								{ 
+								limit_check = 0;
+								
+								}
+								else 
+								{
+								iterator(limit_check++);
+								}
+								pull_value_adder(response);
+								set_value();
+								//total_result = response.data['open_issues_count'];
+								console.log(total_result);
+								//weekResults();
+								//initialise(); 
+                                 },error: function(jqXHR, textStatus, errorThrown) {
+																  console.log(textStatus, errorThrown);
+																}
+                                    });
+									initialise();}
+                              
+	/*var barChartData = {
+		labels : ["total Issue", "Issue In 24 Hours","Issue In Past Week", "Issue Older Than a Week"],
+		datasets : [
+			{
+				fillColor : "rgba(220,220,220,0.5)",
+				strokeColor : "rgb(0,0,0)",
+				highlightFill: "rgba(220,220,220,0.75)",
+				highlightStroke: "rgba(220,220,220,1)",
+				data : [findvalue_a(),findvalue_c(),findvalue_c(),findvalue_d()]
+			},
+			
+		]
+
+	}*/
+</script>
+</html>

@@ -1,0 +1,38 @@
+body{
+				padding: 0;
+				margin: 0;
+			}
+			.se-pre-con {
+				position: fixed;
+				margin-left:45%;
+				width: 80px;
+				height: 80px;
+				align:center;
+				/*z-index: 9999;*/
+				background: url(../Preloader_8.gif) center no-repeat #fff;
+				visibility:hidden;
+			}
+			.input-group{
+				width:40%;
+			}
+			.input-group-btn{
+				margin:0px;
+			}
+			#canvas-holder{
+				width:30%;
+			}
+			#day{
+				background:#F7464A;
+			}
+			#week{
+				background:#46BFBD
+			}
+			#olderthanweek{
+				background:#FDB45C;
+			}
+			#total{
+				background:#ccc;
+			}
+			th,td{
+				text-align:center;
+			}
